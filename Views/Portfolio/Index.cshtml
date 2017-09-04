@@ -1,0 +1,17 @@
+﻿@using CryptoPortfolio.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @Html.Partial("_Portfolio")
+}
+else
+{
+    <div class="well-lg">
+        <img src="~/images/portfolio.png" />
+        <p class="lead">
+            Easiest way to track your crypto currencies
+        </p>
+    </div>
+}
