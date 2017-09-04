@@ -32,7 +32,23 @@ namespace CryptoPortfolio
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+            // Configure Identity
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
 
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -53,7 +69,7 @@ namespace CryptoPortfolio
             }
 
             app.UseStaticFiles();
-
+        
             app.UseAuthentication();
 
             app.UseMvc(routes =>
